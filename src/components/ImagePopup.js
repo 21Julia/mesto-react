@@ -1,6 +1,24 @@
 import React from 'react';
 
-function ImagePopup({card, onClose, onMouseDown}) {
+function ImagePopup({card, onClose, onMouseDown, onKeyDown}) {
+
+  React.useEffect(() => {
+    if (!card) return;
+
+    function closeByEsc(evt) {
+      if (evt.key === 'Escape') {
+        onKeyDown();
+      }
+    }
+
+    document.addEventListener('keydown', closeByEsc);
+
+    return () => {
+      document.removeEventListener('keydown', closeByEsc);
+    }
+  }, [card, onKeyDown])
+
+
   return (
     <div className={`popup popup_type_image popup_opacity_l ${card ? 'popup_opened' : ''}`} onMouseDown={onMouseDown}>
       <div className="popup__illustration-container">

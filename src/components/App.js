@@ -37,20 +37,6 @@ function App() {
     };
   }
 
-  React.useEffect(() => {
-    function closeByEsc(evt) {
-      if (evt.key === 'Escape') {
-        closeAllPopups();
-      }
-    }
-
-    document.addEventListener('keydown', closeByEsc);
-
-    return () => {
-      document.removeEventListener('keydown', closeByEsc);
-    }
-  })
-
 
   return (
     <div>
@@ -62,28 +48,26 @@ function App() {
         onCardClick={setSelectedCard}
       />
       <Footer />
-      <PopupWithForm
-        name="avatar"
+      <PopupWithForm name="avatar"
         title="Обновить аватар"
         buttonTitle="Сохранить"
         buttonClass="popup__save-button_margin_s"
-        children={
-          <>
-            <label htmlFor="avatar-input" className="popup__input-field">
-              <input id="avatar-input" type="url" className="popup__input popup__input_type_avatar" placeholder="Ссылка на аватар" name="avatar" required />
-              <span className="avatar-input-error popup__input-error"></span>
-            </label>
-          </>
-        }
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         onMouseDown={closeByMouse}
-      />
-      <PopupWithForm
-        name="edit"
+        onKeyDown={closeAllPopups}>
+          <label htmlFor="avatar-input" className="popup__input-field">
+            <input id="avatar-input" type="url" className="popup__input popup__input_type_avatar" placeholder="Ссылка на аватар" name="avatar" required />
+            <span className="avatar-input-error popup__input-error"></span>
+          </label>
+      </PopupWithForm>
+      <PopupWithForm name="edit"
         title="Редактировать профиль"
         buttonTitle="Сохранить"
-        children={
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        onMouseDown={closeByMouse}
+        onKeyDown={closeAllPopups}>
           <>
             <label htmlFor="name-input" className="popup__input-field">
               <input id="name-input" type="text" className="popup__input popup__input_type_name" placeholder="Имя" name="name" defaultValue="Жак-Ив Кусто" minLength="2" maxLength="40" required />
@@ -94,16 +78,14 @@ function App() {
               <span className="description-input-error popup__input-error"></span>
             </label>
           </>
-        }
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onMouseDown={closeByMouse}
-      />
-      <PopupWithForm
-        name="add"
+      </PopupWithForm>
+      <PopupWithForm name="add"
         title="Новое место"
         buttonTitle="Создать"
-        children={
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onMouseDown={closeByMouse}
+        onKeyDown={closeAllPopups}>
           <>
             <label htmlFor="title-input" className="popup__input-field">
               <input id="title-input" type="text" className="popup__input popup__input_type_title" placeholder="Название" name="name" minLength="2" maxLength="30" required />
@@ -114,11 +96,7 @@ function App() {
               <span className="link-input-error popup__input-error"></span>
             </label>
           </>
-        }
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onMouseDown={closeByMouse}
-      />
+      </PopupWithForm>
       <PopupWithForm
         name="confirmation"
         title="Вы уверены?"
@@ -127,11 +105,13 @@ function App() {
         buttonClass="popup__save-button_margin_s"
         onClose={closeAllPopups}
         onMouseDown={closeByMouse}
+        onKeyDown={closeAllPopups}
       />
       <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}
         onMouseDown={closeByMouse}
+        onKeyDown={closeAllPopups}
       />
     </div>
   );

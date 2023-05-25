@@ -4,27 +4,22 @@ import Card from './Card';
 import api from '../utils/api';
 
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
-  const [userAvatar, setuserAvatar] = React.useState();
-  const [userName, setuserName] = React.useState();
-  const [userDescription, setuserDescription] = React.useState();
+  const [userAvatar, setuserAvatar] = React.useState('');
+  const [userName, setuserName] = React.useState('');
+  const [userDescription, setuserDescription] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInformation()
-      .then((data) => {
-        setuserAvatar(data.avatar);
-        setuserName(data.name);
-        setuserDescription(data.about);
-      })
-      .catch(err => console.log(`Ошибка при загрузке первоначальной информации: ${err}`))
-  }, [userAvatar, userName, userDescription])
+    api.getAllInitialInformation()
+    .then((argument) => {
+      const [initialCards, userInformation] = argument;
+      setCards(initialCards);
 
-  React.useEffect(() => {
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch(err => console.log(`Ошибка при загрузке первоначальных карточек: ${err}`))
+      setuserAvatar(userInformation.avatar);
+      setuserName(userInformation.name);
+      setuserDescription(userInformation.about);
+    })
+    .catch(err => console.log(`Ошибка при загрузке первоначальной информации: ${err}`))
   }, [])
 
 
@@ -47,8 +42,8 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
       </section>
       <section className="elements" aria-label="Плитка картинок">
         <ul className="elements__list">
-          {cards.map((card, id) => (
-            <Card key={id}
+          {cards.map((card, i) => (
+            <Card key={card._id}
             card={card}
             onCardClick={onCardClick}
             />

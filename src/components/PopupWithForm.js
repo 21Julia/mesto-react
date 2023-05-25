@@ -1,6 +1,24 @@
 import React from 'react';
 
-function PopupWithForm({name, title, children, isOpen, onClose, titleClass, buttonClass, buttonTitle, onMouseDown}) {
+function PopupWithForm({name, title, children, isOpen, onClose, titleClass, buttonClass, buttonTitle, onMouseDown, onKeyDown}) {
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    function closeByEsc(evt) {
+      if (evt.key === 'Escape') {
+        onKeyDown();
+      }
+    }
+
+    document.addEventListener('keydown', closeByEsc);
+
+    return () => {
+      document.removeEventListener('keydown', closeByEsc);
+    }
+  }, [isOpen, onKeyDown])
+
+
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} onMouseDown={onMouseDown}>
       <div className="popup__container">
