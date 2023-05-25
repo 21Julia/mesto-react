@@ -1,0 +1,21 @@
+.header__logo {
+  max-width: 142px;
+  background-size: cover;
+  margin-bottom: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media all and (max-width: 920px) {
+  .header__logo {
+    margin-left: 27px;
+    margin-bottom: 31.6px;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .header__logo {
+    max-width: 103.74px;
+  }
+}
