@@ -84,6 +84,14 @@ class Api {
       })
   }
 
+  changeLikeCardStatus(cardId, isLiked) {
+    if (!isLiked) {
+      return this.addLike(cardId);
+    } else {
+      return this.deleteLike(cardId);
+    }
+  }
+
   // Метод для добавления лайка
   addLike(cardId) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
