@@ -9,10 +9,11 @@ function EditProfilePopup({isOpen, onClose, onKeyDown, onMouseDown, onUpdateUser
 
   const currentUser = React.useContext(CurrentUserContext);
 
+
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
 
   function handleNameChange(evt) {
@@ -48,11 +49,11 @@ function EditProfilePopup({isOpen, onClose, onKeyDown, onMouseDown, onUpdateUser
       isLoading={isLoading}>
         <>
           <label htmlFor="name-input" className="popup__input-field">
-            <input id="name-input" type="text" className="popup__input popup__input_type_name" placeholder="Имя" name="name" value={name} onChange={handleNameChange} minLength="2" maxLength="40" required />
+            <input id="name-input" type="text" className="popup__input popup__input_type_name" placeholder="Имя" name="name" value={name || ''} onChange={handleNameChange} minLength="2" maxLength="40" required />
             <span className="name-input-error popup__input-error"></span>
           </label>
           <label htmlFor="description-input" className="popup__input-field">
-            <input id="description-input" type="text" className="popup__input popup__input_type_description" placeholder="О себе" name="about" value={description} onChange={handleDescriptionChange} minLength="2" maxLength="200" required />
+            <input id="description-input" type="text" className="popup__input popup__input_type_description" placeholder="О себе" name="about" value={description || ''} onChange={handleDescriptionChange} minLength="2" maxLength="200" required />
             <span className="description-input-error popup__input-error"></span>
           </label>
         </>

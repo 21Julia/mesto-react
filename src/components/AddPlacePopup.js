@@ -1,9 +1,17 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
+
 function AddPlacePopup({isOpen, onClose, onKeyDown, onMouseDown, onAddPlace, isLoading, changePreloaderStatus}) {
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
+
+
+  React.useEffect(() => {
+    setName('');
+    setLink('');
+  }, [isOpen]);
+
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -22,10 +30,8 @@ function AddPlacePopup({isOpen, onClose, onKeyDown, onMouseDown, onAddPlace, isL
       name,
       link
     });
-
-    setName('');
-    setLink('');
   }
+
 
   return (
     <PopupWithForm
